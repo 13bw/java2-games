@@ -8,11 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import application.repository.CategoriaRepository;
-
 import org.springframework.ui.Model;
 
-
+import application.model.Plataforma;
+import application.repository.PlataformaRepository;
 
 @Controller
 @RequestMapping("/plataformas")
