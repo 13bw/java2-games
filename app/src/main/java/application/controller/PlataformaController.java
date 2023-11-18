@@ -14,7 +14,7 @@ import application.model.Plataforma;
 import application.repository.PlataformaRepository;
 
 @Controller
-@RequestMapping("/plataformas")
+@RequestMapping("/plataforma")
 public class PlataformaController {
 
     @Autowired
@@ -23,12 +23,12 @@ public class PlataformaController {
     @RequestMapping("/list")
     public String list(Model ui) {
         ui.addAttribute("plataformas", plataformaRepository.findAll());
-        return "plataformas/list";
+        return "plataforma/list";
     }
 
     @RequestMapping("/insert")
     public String insert(Model ui) {
-        return "plataformas/insert";
+        return "plataforma/insert";
     }
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
@@ -41,7 +41,7 @@ public class PlataformaController {
         plataformaRepository.save(plataforma);
 
         // Redirect to the list page
-        return "redirect:/plataformas/list";
+        return "redirect:/plataforma/list";
     }
 
     @RequestMapping("/update")
@@ -52,11 +52,11 @@ public class PlataformaController {
         // If the plataforma is found, add it to the model and return the update page
         if (plataforma.isPresent()) {
             ui.addAttribute("plataforma", plataforma.get());
-            return "plataformas/update";
+            return "plataforma/update";
         }
 
         // If the plataforma is not found, redirect to the list page
-        return "redirect:/plataformas/list";
+        return "redirect:/plataforma/list";
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
@@ -71,7 +71,7 @@ public class PlataformaController {
         }
 
         // Redirect to the list page
-        return "redirect:/plataformas/list";
+        return "redirect:/plataforma/list";
     }
 
     @RequestMapping("/delete")
@@ -81,12 +81,12 @@ public class PlataformaController {
 
         // If the plataforma is found, delete it from the database
         if (plataforma.isPresent()) {
-            plataformaRepository.delete(plataforma.get());
-            return "plataformas/delete";
+            ui.addAttribute("plataforma", plataforma.get());
+            return "plataforma/delete";
         }
 
         // If the plataforma is not found, redirect to the list page
-        return "redirect:/plataformas/list";
+        return "redirect:/plataforma/list";
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
@@ -95,6 +95,6 @@ public class PlataformaController {
         plataformaRepository.deleteById(id);
 
         // Redirect to the list page
-        return "redirect:/plataformas/list";
+        return "redirect:/plataforma/list";
     }
 }

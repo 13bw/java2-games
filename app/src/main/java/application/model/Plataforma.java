@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -23,7 +24,7 @@ public class Plataforma {
     @Column(unique = true, nullable = false)
     private String nome;
 
-    @OneToMany(mappedBy = "plataforma")
+    @ManyToMany(mappedBy = "plataformas")
     private Set<Jogo> jogos = new HashSet<>();
 
     public Long getId() {

@@ -14,6 +14,8 @@ import jakarta.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
+
+
 @Entity
 @Table(name = "jogos")
 public class Jogo {

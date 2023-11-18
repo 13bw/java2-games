@@ -19,7 +19,7 @@ import application.repository.PlataformaRepository;
 import java.util.Set;
 
 @Controller
-@RequestMapping("/jogos")
+@RequestMapping("/jogo")
 public class JogoController {
 
     @Autowired
@@ -34,21 +34,21 @@ public class JogoController {
     @RequestMapping("/list")
     public String list(Model ui) {
         ui.addAttribute("jogos", jogoRepository.findAll());
-        return "jogos/list";
+        return "jogo/list";
     }
 
     @RequestMapping("/insert")
     public String insert(Model ui) {
         ui.addAttribute("plataformas", plataformaRepository.findAll());
         ui.addAttribute("categorias", categoriaRepository.findAll());
-        return "jogos/insert";
+        return "jogo/insert";
     }
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     public String insert(
             @RequestParam("titulo") String titulo,
             @RequestParam("plataformas") Long[] idsPlataformas,
-            @RequestParam("categoria_id") Long categoria_id) {
+            @RequestParam("categoria") Long categoria_id) {
 
         Jogo jogo = new Jogo();
         jogo.setTitulo(titulo);
@@ -62,7 +62,7 @@ public class JogoController {
             }
         }
         jogoRepository.save(jogo);
-        return "redirect:/jogos/list";
+        return "redirect:/jogo/list";
 
     }
 
@@ -74,21 +74,22 @@ public class JogoController {
             ui.addAttribute("jogo", jogoRepository.findById(id).get());
             ui.addAttribute("plataformas", plataformaRepository.findAll());
             ui.addAttribute("categorias", categoriaRepository.findAll());
-            return "jogos/update";
+            return "jogo/update";
         }
-        return "redirect:/jogos/list";
+        return "redirect:/jogo/list";
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String update(
             @RequestParam("id") Long id,
             @RequestParam("plataformas") Long[] idsPlataformas,
-            @RequestParam("categoria_id") Long categoria_id) {
+            @RequestParam("categoria") Long categoria_id,
+            @RequestParam("titulo") String titulo) {
 
         Optional<Jogo> jogo = jogoRepository.findById(id);
 
         if (jogo.isPresent()) {
-            jogo.get().setTitulo(jogo.get().getTitulo());
+            jogo.get().setTitulo(titulo);
             jogo.get().setCategoria(categoriaRepository.findById(categoria_id).get());
 
             Set<Plataforma> updatePlataforma = new HashSet<>();
@@ -103,7 +104,7 @@ public class JogoController {
             jogoRepository.save(jogo.get());
         }
 
-        return "redirect:/jogos/list";
+        return "redirect:/jogo/list";
     }
 
     @RequestMapping("/delete")
@@ -111,17 +112,17 @@ public class JogoController {
         Optional<Jogo> jogo = jogoRepository.findById(id);
 
         if (jogo.isPresent()) {
-            jogoRepository.delete(jogo.get());
-            return "jogos/delete";
+            ui.addAttribute("jogo", jogo.get());
+            return "jogo/delete";
         }
 
-        return "redirect:/jogos/list";
+        return "redirect:/jogo/list";
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public String delete(@RequestParam("id") Long id) {
         jogoRepository.deleteById(id);
-        return "redirect:/jogos/list";
+        return "redirect:/jogo/list";
     }
 
 }
